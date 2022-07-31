@@ -6,6 +6,7 @@ const Input = ({
   placeholder,
   children,
   custom,
+  onChange,
   customMargin,
 }) => {
   return (
@@ -35,6 +36,7 @@ const Input = ({
       <input
         type={type}
         value={value}
+        onChange={onChange}
         placeholder={placeholder}
         style={{
           height: "40px",

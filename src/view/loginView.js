@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../components/button";
 import Input from "../components/InputComponent";
 import { FaLock } from "react-icons/fa";
 import { BsFillPersonFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import { LoginAction } from "../redux/APIAction";
 
 const LoginPage = () => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleUserName = (e) => {
+    setUserName(e.target.value);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const loggedIndata = useSelector((store) => store.loginReducer);
+  console.log(loggedIndata, "these data are from redux");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      userName,
+      password,
+    };
+    dispatch(LoginAction({ data }));
+  };
   return (
     <div
       style={{
@@ -43,26 +65,27 @@ const LoginPage = () => {
         <h1 style={{ fontWeight: "900", width: "90%" }}>
           Responsive Login Form
         </h1>
-        <div>
+        <form>
           <Input
             placeholder="username"
             children={<BsFillPersonFill />}
             custom="300px"
             customMargin="20px 0px"
+            onChange={handleUserName}
+            value={userName}
           />
           <Input
             placeholder="Password"
             children={<FaLock />}
             custom="300px"
             customMargin="20px 0px"
+            onChange={handlePassword}
+            type="password"
+            value={password}
           />
 
-          <Button
-            title="Login"
-            custom="300px"
-            onClick={() => navigate("Dashboard")}
-          />
-        </div>
+          <Button title="Login" custom="300px" onClick={handleSubmit} />
+        </form>
         <p style={{ paddingTop: 20 }}>
           Does not have an account?{" "}
           <Link to="/register" style={{ color: "grey" }}>
