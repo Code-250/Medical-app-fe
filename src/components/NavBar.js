@@ -1,8 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { Button } from "./button";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const logOut = () => {
+    localStorage.removeItem("role");
+    navigate("/");
+  };
   return (
     <div
       style={{
@@ -29,7 +35,13 @@ const NavBar = () => {
           Medical Care <br /> Services
         </p>
       </div>
-      <Button title="Log Out" navBar navBarWidth="200px" radius="10px" />
+      <Button
+        title="Log Out"
+        navBar
+        navBarWidth="200px"
+        radius="10px"
+        onClick={logOut}
+      />
     </div>
   );
 };

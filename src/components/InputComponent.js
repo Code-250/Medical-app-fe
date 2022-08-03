@@ -6,8 +6,10 @@ const Input = ({
   placeholder,
   children,
   custom,
+  name,
   onChange,
   customMargin,
+  register,
 }) => {
   return (
     <div
@@ -37,6 +39,7 @@ const Input = ({
         type={type}
         value={value}
         onChange={onChange}
+        name={name}
         placeholder={placeholder}
         style={{
           height: "40px",
@@ -44,6 +47,7 @@ const Input = ({
           paddingLeft: "2.5em",
           width: "100%",
         }}
+        {...register(name)}
       />
     </div>
   );

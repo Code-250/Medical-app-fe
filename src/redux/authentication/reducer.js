@@ -14,6 +14,7 @@ export const signupReducer = (state = initialState, action) => {
         loading: true,
       };
     case `${SIGNUP_AUTH}_SUCCESS`:
+      console.log(action.payload);
       return {
         ...state,
         loading: false,

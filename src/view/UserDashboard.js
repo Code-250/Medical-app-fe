@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "./tables";
 
-const PatientView = () => {
+const DashboardUser = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const roleId = JSON.parse(localStorage.getItem("role"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchData = async () => {
     if (!roleId) return navigate("/");
-    const data = await fetch(`http://localhost:5000/api/v1/PATIENT`, {
+    const data = await fetch(`http://localhost:5000/api/v1/${roleId}`, {
       method: "GET",
       header: { "Content-Type": "application/json" },
     });
@@ -22,6 +22,15 @@ const PatientView = () => {
   };
   useEffect(() => {
     fetchData();
+    if (
+      roleId === "PATIENT" ||
+      roleId === "PHARMACIST" ||
+      roleId === "PHYSICIAN"
+    ) {
+      return navigate("/dashboard/user");
+    } else {
+      return navigate("/dashboard/admin");
+    }
   }, []);
   return (
     <div
@@ -29,14 +38,21 @@ const PatientView = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        padding: 20,
+        height: "76vh",
+        padding: 50,
       }}
     >
       <p style={{ paddingLeft: 60, fontSize: 20, fontWeight: "700" }}>
-        Patient illinesses
+        {roleId === "PATIENT"
+          ? "Patient illinesses "
+          : roleId === "PHARMACIST"
+          ? "Most bought drugs"
+          : roleId === "PHYSICIAN"
+          ? "Physician"
+          : "Admin "}
       </p>
       <Table data={data} />
     </div>
   );
 };
-export default PatientView;
+export default DashboardUser;

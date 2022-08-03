@@ -40,14 +40,13 @@ export const LoginAction =
     console.log(data, "here");
     dispatch({ type: `${LOGIN_AUTH}_PENDING` });
     try {
-      const response = await axios.get(
+      const response = await fetch(
         `http://localhost:8080/java_servlet_app/user/login`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Accept: "*/*",
-            "Access-Control-Allow-Origin": "*",
+            mode: "no-cors",
           },
           data: {
             userName: data.userName,
@@ -55,9 +54,10 @@ export const LoginAction =
           },
         }
       );
+      const res = await response.json();
 
       console.log(response, "data here");
-      await dispatch({ type: `${LOGIN_AUTH}_SUCCESS`, payload: response.data });
+      await dispatch({ type: `${LOGIN_AUTH}_SUCCESS`, payload: res});
     } catch (error) {
       dispatch({ type: `${LOGIN_AUTH}_REJECTED`, payload: error });
       console.log(error);

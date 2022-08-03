@@ -1,33 +1,50 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../components/button";
-import Input from "../components/InputComponent";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { FaLock } from "react-icons/fa";
 import { BsFillPersonFill } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
-import { LoginAction } from "../redux/APIAction";
+import { Link } from "react-router-dom";
+import { loginSchema } from "../validations/loginSchema";
 
 const LoginPage = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const handleUserName = (e) => {
-    setUserName(e.target.value);
-  };
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
-  const loggedIndata = useSelector((store) => store.loginReducer);
-  console.log(loggedIndata, "these data are from redux");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      userName,
-      password,
-    };
-    dispatch(LoginAction({ data }));
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+  const onSubmitHandler = async (data) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/java_servlet_app/user/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userName: data.userName,
+            password: data.password,
+          }),
+        }
+      );
+      const res = await response.json();
+      console.log(res, "the response from your servlet");
+      if (res.Payload && res.message) {
+        localStorage.setItem("role", JSON.stringify(res.Payload.role));
+        toast.success(res.message);
+        navigate("/Dashboard");
+      } else {
+        toast.error(res.message);
+        console.log(res.message);
+      }
+      reset();
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div
@@ -65,26 +82,99 @@ const LoginPage = () => {
         <h1 style={{ fontWeight: "900", width: "90%" }}>
           Responsive Login Form
         </h1>
-        <form>
-          <Input
-            placeholder="username"
-            children={<BsFillPersonFill />}
-            custom="300px"
-            customMargin="20px 0px"
-            onChange={handleUserName}
-            value={userName}
-          />
-          <Input
-            placeholder="Password"
-            children={<FaLock />}
-            custom="300px"
-            customMargin="20px 0px"
-            onChange={handlePassword}
-            type="password"
-            value={password}
-          />
+        <form onSubmit={handleSubmit(onSubmitHandler)}>
+          <div
+            style={{
+              margin: "20px 0px 20px 0px",
+              position: "relative",
+              width: "300px",
+            }}
+          >
+            <div
+              style={{
+                padding: "0px 10px 0px 10px",
+                height: "40px",
+                borderRight: "1px solid grey",
+                position: "absolute",
+                boxSizing: "border-box",
+                top: errors.userName ? "30%" : "50%",
+                transform: "translateY(-50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <BsFillPersonFill />
+            </div>
+            <input
+              type="text"
+              placeholder="userName"
+              style={{
+                height: "40px",
+                boxSizing: "border-box",
+                paddingLeft: "2.5em",
+                width: "100%",
+              }}
+              {...register("userName")}
+            />
+            <p style={{ color: "red" }}>{errors.userName?.message}</p>
+          </div>
+          <div
+            style={{
+              position: "relative",
+              margin: "20px 0px 20px 0px",
+              width: "300px",
+            }}
+          >
+            <div
+              style={{
+                padding: "0px 10px 0px 10px",
+                height: "40px",
+                borderRight: "1px solid grey",
+                position: "absolute",
+                boxSizing: "border-box",
+                top: errors.password ? "30%" : "50%",
+                transform: "translateY(-50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FaLock />
+            </div>
+            <input
+              type="password"
+              placeholder="password"
+              style={{
+                height: "40px",
+                boxSizing: "border-box",
+                paddingLeft: "2.5em",
+                width: "100%",
+              }}
+              {...register("password")}
+            />
+            <p style={{ color: "red" }}>{errors.password?.message}</p>
+          </div>
 
-          <Button title="Login" custom="300px" onClick={handleSubmit} />
+          <div
+            style={{
+              width: "300px",
+              border: "none",
+              borderRadius: "none",
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: "#CB8B0E",
+                padding: "10px",
+                border: "none",
+                width: "100%",
+                color: "white",
+              }}
+            >
+              Login
+            </button>
+          </div>
         </form>
         <p style={{ paddingTop: 20 }}>
           Does not have an account?{" "}
