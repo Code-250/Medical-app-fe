@@ -31,7 +31,9 @@ function App() {
               exact
               path=""
               element={
-                roleId === "ADMIN" ? (
+                !roleId ? (
+                  <Navigate to="/" />
+                ) : roleId === "ADMIN" ? (
                   <Navigate to="admin" />
                 ) : (
                   <Navigate to="user" />

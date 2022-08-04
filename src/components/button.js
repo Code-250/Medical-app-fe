@@ -18,7 +18,7 @@ export const Button = ({
     >
       <button
         style={{
-          backgroundColor: navBar ? "transparent" : "#CB8B0E",
+          backgroundColor: navBar ? "transparent" : "#E8AB35",
           padding: "10px",
           border: "none",
           width: "100%",

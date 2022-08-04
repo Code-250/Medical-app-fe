@@ -7,6 +7,7 @@ import { FaLock } from "react-icons/fa";
 import { BsFillPersonFill, BsPhoneFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { registerSchema } from "../validations/registerSchema";
+import "./tables/table.css";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -83,7 +84,7 @@ const RegisterPage = () => {
           style={{
             width: "100%",
             height: "7px",
-            backgroundColor: "#CB8B0E",
+            backgroundColor: "#E8AB35",
             position: "absolute",
             top: 0,
           }}
@@ -357,12 +358,7 @@ const RegisterPage = () => {
 
           <div style={{ padding: "15px 0px" }}>
             <select
-              style={{
-                padding: "8px",
-                width: "450px",
-                margin: "5px 0px",
-                color: "#777",
-              }}
+              style={{}}
               {...register("role")}
               onChange={(e) => doSomething(e.target.value)}
             >
@@ -382,7 +378,7 @@ const RegisterPage = () => {
           >
             <button
               style={{
-                backgroundColor: "#CB8B0E",
+                backgroundColor: "#E8AB35",
                 padding: "10px",
                 border: "none",
                 width: "100%",

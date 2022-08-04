@@ -4,7 +4,7 @@ import Social from "./Social";
 const Footer = () => {
   return (
     <div
-      style={{ width: "100%", minHeight: "138px", backgroundColor: "#CB8B0E" }}
+      style={{ width: "100%", minHeight: "138px", backgroundColor: "#E8AB35" }}
     >
       <Social />
       <p style={{ color: "white" }}>

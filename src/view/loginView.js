@@ -74,7 +74,7 @@ const LoginPage = () => {
           style={{
             width: "100%",
             height: "7px",
-            backgroundColor: "#CB8B0E",
+            backgroundColor: "#E8AB35",
             position: "absolute",
             top: 0,
           }}
@@ -165,7 +165,7 @@ const LoginPage = () => {
           >
             <button
               style={{
-                backgroundColor: "#CB8B0E",
+                backgroundColor: "#E8AB35",
                 padding: "10px",
                 border: "none",
                 width: "100%",

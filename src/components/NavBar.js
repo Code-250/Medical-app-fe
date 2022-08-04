@@ -13,7 +13,7 @@ const NavBar = () => {
     <div
       style={{
         width: "100%",
-        backgroundColor: "#CB8B0E",
+        backgroundColor: "#E8AB35",
         display: "flex",
         height: "83px",
         padding: "0px 20px",
